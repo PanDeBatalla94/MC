@@ -1,5 +1,5 @@
 # MC
 
-##REQUIREMENTS
+## REQUIREMENTS
 
 * Oracle JAVA 9
