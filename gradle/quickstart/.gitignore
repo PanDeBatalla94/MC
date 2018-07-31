@@ -1,4 +1,7 @@
 /.gradle/
+/.settings/
+/.vscode/
+/.idea/
 /build/
 /out/
 *.iml

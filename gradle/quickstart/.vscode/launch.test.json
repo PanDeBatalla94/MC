@@ -1,0 +1,30 @@
+{
+    "run": {
+        "default": "",
+        "items": [
+            {
+                "name": "quickstart",
+                "projectName": "quickstart",
+                "workingDirectory": "c:\\Users\\Administrator\\Desktop\\DevOps\\git\\MC\\gradle\\quickstart",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    },
+    "debug": {
+        "default": "",
+        "items": [
+            {
+                "name": "quickstart",
+                "projectName": "quickstart",
+                "workingDirectory": "c:\\Users\\Administrator\\Desktop\\DevOps\\git\\MC\\gradle\\quickstart",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    }
+}
