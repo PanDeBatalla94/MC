@@ -21,5 +21,27 @@ pipeline {
                 echo 'Deploying....'
             }
         }
+
+	stage('Report Gathering') {
+            steps {
+               
+                echo 'Preparing reports....'
+		sh './gradle/quickstart/gradlew clean build gradle/quickstart/'
+
+                    publishHTML([allowMissing: true, 
+                                 alwaysLinkToLastBuild: false,  
+                                 keepAll: true, 
+                                 reportDir: 'gradle/quickstart/build/reports/tests', 
+                                 reportFiles: 'index.html', 
+                                 reportName: 'JUnit Test Reports'])
+		sh './gradle/quickstart/gradle test jacocoTestReport gradle/quickstart/'
+                    publishHTML([allowMissing: true, 
+                                 alwaysLinkToLastBuild: false, 
+                                 keepAll: true, 
+                                 reportDir: 'gradle/quickstart/build/reports/jacoco', 
+                                 reportFiles: 'index.html', 
+                                 reportName: 'JaCoCo Coverage Reports'])
+            }
+        } 
     }
 }
