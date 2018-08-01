@@ -35,12 +35,14 @@ pipeline {
                          keepAll: true, 
                          reportDir: 'gradle/quickstart/build/reports/tests/test', 
                          reportFiles: 'index.html', 
+                         reportTitles: "Simple Report",
                          reportName: 'JUnit Test Reports'])
            publishHTML([allowMissing: true, 
                         alwaysLinkToLastBuild: false, 
                         keepAll: true, 
                         reportDir: 'gradle/quickstart/build/jacocoHtml', 
-                        reportFiles: 'index.html', 
+                        reportFiles: 'index.html',
+                        reportTitles: "SimpleCov Report", 
                         reportName: 'JaCoCo Coverage Reports'])
         }
     }
