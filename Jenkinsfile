@@ -20,6 +20,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+                sh './gradle/quickstart/gradlew clean bluid -p gradle/quickstart/'
             }
         }
 
