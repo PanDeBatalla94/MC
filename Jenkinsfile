@@ -5,8 +5,9 @@ pipeline {
             steps {
                 echo 'Building..'
 	        sh '''
-                chmod +x gradle/quickstart/gradlew
-                ./gradle/quickstart/gradlew clean assemble -p gradle/quickstart/'
+                  chmod +x gradle/quickstart/gradlew
+                  ./gradle/quickstart/gradlew clean assemble -p gradle/quickstart/
+                '''
             }
         }
         stage('Test') {
