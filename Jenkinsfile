@@ -20,7 +20,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh './gradle/quickstart/gradlew clean bluid -p gradle/quickstart/'
+                sh './gradle/quickstart/gradlew clean build -p gradle/quickstart/'
             }
         }
 
@@ -30,22 +30,20 @@ pipeline {
     post {
         always {
             junit 'gradle/quickstart/build/test-results/test/*.xml'
-            publishHTML([allowMissing: true, 
+            publishHTML target: [allowMissing: true, 
                          alwaysLinkToLastBuild: false,  
                          keepAll: true, 
                          reportDir: 'gradle/quickstart/build/reports/tests/test', 
                          reportFiles: 'index.html', 
                          reportTitles: "Simple Report",
-                         reportName: 'JUnit Test Reports'])
-            publishHTML([allowMissing: true, 
+                         reportName: 'JUnit Test Reports']
+            publishHTML target: [allowMissing: true, 
                         alwaysLinkToLastBuild: false, 
                         keepAll: true, 
                         reportDir: 'gradle/quickstart/build/jacocoHtml', 
                         reportFiles: 'index.html',
                         reportTitles: "SimpleCov Report", 
-                        reportName: 'JaCoCo Coverage Reports'])
-
-           
+                        reportName: 'JaCoCo Coverage Reports']
         }
         success {
             archiveArtifacts artifacts: 'gradle/quickstart/build/libs/*.jar', fingerprint: true
