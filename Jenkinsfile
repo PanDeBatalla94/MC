@@ -4,7 +4,9 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-	        sh './gradle/quickstart/gradlew clean assemble -p gradle/quickstart/'
+	        sh '''
+                chmod +x gradle/quickstart/gradlew
+                ./gradle/quickstart/gradlew clean assemble -p gradle/quickstart/'
             }
         }
         stage('Test') {
