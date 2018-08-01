@@ -30,7 +30,7 @@ pipeline {
     post {
         always {
             junit 'gradle/quickstart/build/test-results/test/*.xml'
-            publishHTML([allowMissing: true, 
+            publishHTML(target: [allowMissing: true, 
                          alwaysLinkToLastBuild: false,  
                          keepAll: true, 
                          reportDir: 'gradle/quickstart/build/reports/tests/test', 
@@ -38,7 +38,7 @@ pipeline {
                          reportTitles: "Simple Report",
                          reportName: 'JUnit Test Reports'])
 
-            publishHTML([allowMissing: true, 
+            publishHTML(target: [allowMissing: true, 
                         alwaysLinkToLastBuild: false, 
                         keepAll: true, 
                         reportDir: 'gradle/quickstart/build/jacocoHtml', 
