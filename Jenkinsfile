@@ -13,7 +13,19 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-	        sh './gradle/quickstart/gradlew clean test -p gradle/quickstart/'
+	        sh './gradle/quickstart/gradlew clean test jacocoTestReport -p gradle/quickstart/'
+                publishHTML([allowMissing: true, 
+                                 alwaysLinkToLastBuild: false,  
+                                 keepAll: true, 
+                                 reportDir: 'gradle/quickstart/build/reports/tests', 
+                                 reportFiles: 'index.html', 
+                                 reportName: 'JUnit Test Reports'])
+                publishHTML([allowMissing: true, 
+                                 alwaysLinkToLastBuild: false, 
+                                 keepAll: true, 
+                                 reportDir: 'gradle/quickstart/build/reports/jacoco', 
+                                 reportFiles: 'index.html', 
+                                 reportName: 'JaCoCo Coverage Reports'])
             }
         }
         stage('Deploy') {
@@ -22,26 +34,6 @@ pipeline {
             }
         }
 
-	stage('Report Gathering') {
-            steps {
-               
-                echo 'Preparing reports....'
-		sh './gradle/quickstart/gradlew clean build gradle/quickstart/'
-
-                    publishHTML([allowMissing: true, 
-                                 alwaysLinkToLastBuild: false,  
-                                 keepAll: true, 
-                                 reportDir: 'gradle/quickstart/build/reports/tests', 
-                                 reportFiles: 'index.html', 
-                                 reportName: 'JUnit Test Reports'])
-		sh './gradle/quickstart/gradle test jacocoTestReport gradle/quickstart/'
-                    publishHTML([allowMissing: true, 
-                                 alwaysLinkToLastBuild: false, 
-                                 keepAll: true, 
-                                 reportDir: 'gradle/quickstart/build/reports/jacoco', 
-                                 reportFiles: 'index.html', 
-                                 reportName: 'JaCoCo Coverage Reports'])
-            }
-        } 
+	
     }
 }
