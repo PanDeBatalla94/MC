@@ -29,7 +29,6 @@ pipeline {
     post {
         always {
             junit 'gradle/quickstart/build/test-results/test/*.xml'
-            archiveArtifacts artifacts: 'gradle/quickstart/build/libs/*.jar', fingerprint: true
             publishHTML([allowMissing: true, 
                          alwaysLinkToLastBuild: false,  
                          keepAll: true, 
@@ -37,13 +36,18 @@ pipeline {
                          reportFiles: 'index.html', 
                          reportTitles: "Simple Report",
                          reportName: 'JUnit Test Reports'])
-           publishHTML([allowMissing: true, 
+            publishHTML([allowMissing: true, 
                         alwaysLinkToLastBuild: false, 
                         keepAll: true, 
                         reportDir: 'gradle/quickstart/build/jacocoHtml', 
                         reportFiles: 'index.html',
                         reportTitles: "SimpleCov Report", 
                         reportName: 'JaCoCo Coverage Reports'])
+
+           
+        }
+        success {
+            archiveArtifacts artifacts: 'gradle/quickstart/build/libs/*.jar', fingerprint: true
         }
     }
 }
