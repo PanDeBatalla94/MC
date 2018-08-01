@@ -13,16 +13,11 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-	        sh './gradle/quickstart/gradlew clean test jacocoTestReport -p gradle/quickstart/'
+	        sh './gradle/quickstart/gradlew test jacocoTestReport -p gradle/quickstart/'
                 
             }
         }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-                sh './gradle/quickstart/gradlew clean build -p gradle/quickstart/'
-            }
-        }
+       
 
 	
     }
