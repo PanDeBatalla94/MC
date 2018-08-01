@@ -38,7 +38,7 @@ pipeline {
                          reportTitles: "Simple Report",
                          reportName: 'JUnit Test Reports'])
 
-            publishHTML([[allowMissing: true, 
+            publishHTML([allowMissing: true, 
                         alwaysLinkToLastBuild: false, 
                         keepAll: true, 
                         reportDir: 'gradle/quickstart/build/jacocoHtml', 
