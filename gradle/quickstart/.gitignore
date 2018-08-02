@@ -2,6 +2,8 @@
 /.settings/
 /.vscode/
 /.idea/
+.project
+.classpath
 /build/
 /out/
 *.iml
