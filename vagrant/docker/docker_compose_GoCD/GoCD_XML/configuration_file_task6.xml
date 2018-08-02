@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cruise xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="cruise-config.xsd" schemaVersion="108">
+  <server artifactsdir="artifacts" agentAutoRegisterKey="dbcacdc8-a185-4d7d-b13f-cfa151b10e83" webhookSecret="f360449d-369c-44f9-9ba1-7eb911f2b406" commandRepositoryLocation="default" serverId="8daa67fe-0cd7-4200-8b7f-3277225207b1" tokenGenerationKey="d89184f4-6db6-494f-bed6-a29cc453af51" />
+  <pipelines group="WEB-APP">
+    <pipeline name="quickstart-app" lockBehavior="lockOnFailure">
+      <materials>
+        <git url="https://github.com/devops-at06/MC.git" />
+      </materials>
+      <stage name="Build">
+        <jobs>
+          <job name="building">
+            <tasks>
+              <exec command="sh">
+                <arg>./gradle/quickstart/gradlew</arg>
+                <arg>clean</arg>
+                <arg>assemble</arg>
+                <arg>-p</arg>
+                <arg>gradle/quickstart/</arg>
+                <runif status="passed" />
+              </exec>
+            </tasks>
+            <artifacts>
+              <artifact type="build" src="gradle/quickstart/build/libs/*.jar" dest="Build" />
+            </artifacts>
+          </job>
+        </jobs>
+      </stage>
+      <stage name="Test">
+        <jobs>
+          <job name="Testing">
+            <tasks>
+              <exec command="sh">
+                <arg>./gradle/quickstart/gradlew</arg>
+                <arg>test</arg>
+                <arg>jacocoTestReport</arg>
+                <arg>-p</arg>
+                <arg>gradle/quickstart/</arg>
+              </exec>
+            </tasks>
+            <artifacts>
+              <artifact type="test" src="gradle/quickstart/build/test-results/test/*.xml" dest="UnitTest" />
+              <artifact type="test" src="gradle/quickstart/build/jacocoHtml/index.html" dest="Jacoco" />
+              <artifact type="test" src="gradle/quickstart/build/reports/tests/test/index.html" dest="Report" />
+            </artifacts>
+          </job>
+        </jobs>
+      </stage>
+    </pipeline>
+  </pipelines>
+  <agents>
+    <agent hostname="bf6653fe26b0" ipaddress="172.19.0.3" uuid="d50620cb-b0d9-4e41-96ec-3eb52893fcd3" />
+  </agents>
+</cruise>
