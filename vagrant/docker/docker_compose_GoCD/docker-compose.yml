@@ -26,8 +26,6 @@ services:
       
       - GO_SERVER_URL=https://gocd_server:8154/go
 
-      - JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
-      - PATH=$PATH:/usr/lib/jvm/java-1.8-openjdk/bin
     volumes:
       
       - /home/ubuntu/dockerGoCD/godata_agent:/godata
