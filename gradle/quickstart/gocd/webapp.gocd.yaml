@@ -1,9 +1,9 @@
 format_version: 3
 pipelines:
-  lock_behavior: lockOnFailure
   quickstart-cli:
+    lock_behavior: lockOnFailure
     group: TEST
-    material:
+    materials:
       repo: 
        git: https://github.com/PanDeBatalla94/MC.git
        branch: gocd_master 
