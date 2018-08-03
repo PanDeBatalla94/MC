@@ -33,7 +33,7 @@ pipelines:
                       - clean
                       - test
                       - -p
-                      - quickstart
+                      - gradle/quickstart
               artifacts:
                 - build:
                     source: gradle/quickstart/build/reports/tests/test/**/*
