@@ -2,17 +2,11 @@ format_version: 3
 pipelines:
   lock_behavior: lockOnFailure
   quickstart-cli:
-    group: WEBAPP
-    materials:
-      repo:
-        git: https://github.com/PanDeBatalla94/MC.git
-    stages:
-  fa-webapp-deploy:
     group: TEST
     material:
       repo: 
        git: https://github.com/PanDeBatalla94/MC.git
-       master: gocd
+       branch: gocd_master 
     stages: 
       - Build:
           jobs:
@@ -49,5 +43,4 @@ pipelines:
                     destination: xml
               tabs:
                 unit_test: html/index.html
-                
  
