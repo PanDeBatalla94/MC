@@ -1,0 +1,51 @@
+format_version: 3
+pipelines:
+  lock_behavior: lockOnFailure
+  quickstart-cli:
+    group: WEBAPP
+    materials:
+      repo:
+        git: https://github.com/PanDeBatalla94/MC.git
+    stages:
+  fa-webapp-deploy:
+    group: TEST
+    material:
+      repo: 
+       git: https://github.com/PanDeBatalla94/MC.git
+       master: gocd
+    stages: 
+      - Build:
+          jobs:
+            building: 
+              tasks:
+                - exec:
+                    command: ./gradle/quickstart/gradlew
+                    arguments:
+                      - "clean"
+                      - "assemble"
+                      - "-p"
+                      - "quickstart"
+              artifacts:
+                - build:
+                    source: gradle/quickstart/build/libs/*.jar
+                    destination: Build
+      - Test:
+          jobs:
+            Unit_Test: 
+              tasks:
+                - exec:
+                    command: ./gradle/quickstart/gradlew
+                    arguments:
+                      - clean
+                      - test
+                      - -p
+                      - quickstart
+              artifacts:
+                - build:
+                    source: gradle/quickstart/build/reports/tests/test/**/*
+                    destination: html
+                - test:
+                    source: gradle/quickstart/build/test-results/test/*xml
+                    destination: xml
+              tabs:
+                unit_test: html/index.html
