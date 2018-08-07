@@ -15,4 +15,4 @@ services:
     volumes:      
       - /home/ubuntu/dockerGoCD/godata_agent:/godata     
       - /home/ubuntu/dockerGoCD/go_agent:/home/go
-      
+
