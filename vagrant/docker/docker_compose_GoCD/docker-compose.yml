@@ -1,33 +1,18 @@
 version: '3'
-
 services:
-  
-  gocd_server:
-    
-    image: "registry.fundacion-jala.local/devops/gocd/gocd-server:v18.5.0"
- 
-    ports:
-      
-      - "8153:8153"
-      
-      - "8154:8154"
-    
-    volumes:
-      
-      - /home/ubuntu/dockerGoCD/godata_server:/godata
-      
-      - /home/ubuntu/dockerGoCD/go_server:/home/go
-  
-  gocd_agent:
-    
-    image: "registry.fundacion-jala.local/devops/gocd/gocd-agent-alpine-3.7:v18.5.0"
-    
-    environment:
-      
+  gocd_server:    
+    image: "registry.fundacion-jala.local/devops/gocd/gocd-server:v18.5.0" 
+    ports:     
+      - "8153:8153"     
+      - "8154:8154"   
+    volumes:      
+      - /home/ubuntu/dockerGoCD/godata_server:/godata      
+      - /home/ubuntu/dockerGoCD/go_server:/home/go  
+  gocd_agent:    
+    image: "registry.fundacion-jala.local/devops/gocd/gocd-agent-alpine-3.7:v18.5.0"   
+    environment:      
       - GO_SERVER_URL=https://gocd_server:8154/go
-
-    volumes:
-      
-      - /home/ubuntu/dockerGoCD/godata_agent:/godata
-      
+    volumes:      
+      - /home/ubuntu/dockerGoCD/godata_agent:/godata     
       - /home/ubuntu/dockerGoCD/go_agent:/home/go
+      
