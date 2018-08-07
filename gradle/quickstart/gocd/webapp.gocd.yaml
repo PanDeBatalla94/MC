@@ -1,0 +1,47 @@
+format_version: 3
+pipelines:
+  quickstart-cli:
+    lock_behavior: lockOnFailure
+    group: TEST
+    materials:
+      repo: 
+       git: https://github.com/devops-at06/MC.git
+       branch: master 
+    stages: 
+      - Build:
+          jobs:
+            building: 
+              tasks:
+                - exec:
+                    command: ./gradle/quickstart/gradlew
+                    arguments:
+                      - "clean"
+                      - "assemble"
+                      - "-p"
+                      - "gradle/quickstart/"
+              artifacts:
+                - build:
+                    source: gradle/quickstart/build/libs/*.jar
+                    destination: Build
+      - Test:
+          jobs:
+            Unit_Test: 
+              tasks:
+                - exec:
+                    command: ./gradle/quickstart/gradlew
+                    arguments:
+                      - clean
+                      - test
+                      - -p
+                      - gradle/quickstart
+              artifacts:
+                - build:
+                    source: gradle/quickstart/build/reports/tests/test/**/*
+                    destination: html
+                - test:
+                    source: gradle/quickstart/build/test-results/test/*xml
+                    destination: xml
+              tabs:
+                unit_test: html/index.html
+ 
+ 
