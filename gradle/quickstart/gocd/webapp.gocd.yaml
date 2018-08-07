@@ -45,7 +45,7 @@ pipelines:
                 unit_test: html/index.html
       - Sonarqube:
           jobs:
-            building: 
+            analyzing: 
               tasks:
                 - exec:
                     command: ./gradle/quickstart/gradlew
