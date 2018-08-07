@@ -5,8 +5,8 @@ pipelines:
     group: TEST
     materials:
       repo: 
-       git: https://github.com/devops-at06/MC.git
-       branch: master 
+       git: https://github.com/PanDeBatalla94/MC.git
+       branch: task8 
     stages: 
       - Build:
           jobs:
@@ -54,6 +54,6 @@ pipelines:
                       - "-p"
                       - "gradle/quickstart/"
 
-                      
+
  
  
