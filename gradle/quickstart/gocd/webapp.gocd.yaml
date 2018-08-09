@@ -5,8 +5,8 @@ pipelines:
     group: TEST
     materials:
       repo: 
-       git: https://github.com/PanDeBatalla94/MC.git
-       branch: quickstartFix 
+       git: https://github.com/devops-at06/MC.git
+       branch: master 
     stages: 
       - Build:
           jobs:
