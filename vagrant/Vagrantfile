@@ -2,23 +2,37 @@ require 'vagrant-openstack-provider'
 Vagrant.configure('2') do |config|
   config.ssh.username = 'ubuntu'
   config.ssh.private_key_path = "c:\\Users\\Administrator\\Desktop\\DevOps\\seven.pem"
+  
   config.vm.provider :openstack do |os, override|
     os.identity_api_version = ENV['OS_IDENTITY_API_VERSION']
     os.openstack_auth_url = ENV['OS_AUTH_URL']
     os.domain_name = ENV['OS_DOMAIN_NAME']
     os.username = ENV['OS_USERNAME']
     os.password = ENV['OS_PASSWORD']
-    os.tenant_name = ENV['OS_TENANT_NAME']
-    os.project_name = ENV['OS_PROJECT_NAME']
     os.keypair_name = ENV['OS_KEY_PAIR_NAME']
     os.region = ENV['OS_REGION_NAME']
     os.image = ENV['OS_IMAGE']
   end
+
   config.vm.define 'linux-server-1' do |s|
     s.vm.provider :openstack do |os, override|
-      os.server_name = 'fa-testEnv-vm'
-      os.flavor = 'f1.desktop.small'
+      os.tenant_name = ENV['OS_TENANT_NAME']
+      os.project_name = ENV['OS_PROJECT_NAME']
+      os.server_name = 'mc-testEnv-vm'
+      os.flavor = ENV['OS_FLAVOR']  
       override.vm.synced_folder '.', '/vagrant', disabled: true
     end
+  end
+
+  config.vm.define 'linux-server-deploy' do |s|
+    s.vm.provider :openstack do |dep, override|
+      dep.tenant_name = ENV['OS_TENANT_NAME_DEP']
+      dep.project_name = ENV['OS_PROJECT_NAME_DEP']
+      dep.server_name = 'ma-project-vm'
+      dep.flavor = ENV['OS_FLAVOR_DEP']
+      override.vm.synced_folder '.', '/vagrant', disabled: true
+    end
+
+    s.vm.provision "shell", path: "script.sh"
   end
 end

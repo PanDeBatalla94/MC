@@ -1,12 +1,17 @@
 @echo off
 set OS_AUTH_URL=http://10.28.3.240:5000/v3
 set OS_IDENTITY_API_VERSION=3
-set OS_TENANT_NAME=ff16b723cfcf404c892ace7c60af1672
-set OS_PROJECT_NAME=fj_mariacanqui_at06-desktop
+set OS_TENANT_NAME=
+set OS_PROJECT_NAME=
 set OS_USERNAME=
 set OS_PASSWORD=
-set OS_DOMAIN_NAME=fundacion-jala
-set OS_FLAVOR=f1.desktop.small
-set OS_IMAGE=ubuntu-16.04-amd64-server_18062018
-set OS_KEY_PAIR_NAME=seven
-set OS_REGION_NAME=bootstack-jalasoft
+set OS_DOMAIN_NAME=
+set OS_FLAVOR=
+set OS_IMAGE=
+set OS_KEY_PAIR_NAME=
+set OS_REGION_NAME=
+set OS_FLAVOR=
+
+set OS_PROJECT_NAME_DEP=
+set OS_FLAVOR_DEP=
+set OS_TENANT_NAME_DEP=
