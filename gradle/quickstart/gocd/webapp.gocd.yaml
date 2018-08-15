@@ -1,8 +1,8 @@
 format_version: 3
 pipelines:
-  quickstart-cli:
+  quickstart_app:
     lock_behavior: lockOnFailure
-    group: TEST
+    group: Quick
     materials:
       repo: 
        git: https://github.com/devops-at06/MC.git
@@ -54,9 +54,9 @@ pipelines:
                       - "-p"
                       - "gradle/quickstart/"
 
-  quickstart-webapp-cli:
+  quickstart_webapp:
     lock_behavior: lockOnFailure
-    group: TEST_war
+    group: Quick
     materials:
       repo: 
        git: https://github.com/PanDeBatalla94/MC.git
