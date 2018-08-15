@@ -14,19 +14,11 @@ task deploy {
   doLast {
     ssh.run {
       session(remotes.webServer) {
-        //put from: 'build/libs/quickstart.war', into: '/var/lib/tomcat8/webapps/'
-        execute 'echo Stopping Tomcat service...'
-        execute 'sudo systemctl stop tomcat8'
-        execute "sudo rm -f ${tomcat_webapps}/${war_name}.war", ignoreError: true
-        execute "sudo rm -rf ${tomcat_webapps}/${war_name}", ignoreError: true
-
-        execute 'echo Sending war file...'
         put from: "${war_path}/${war_name}.war", into: "/tmp/${war_name}.war"
-        execute "sudo cp -f /tmp/${war_name}.war ${tomcat_webapps}/${war_name}.war", ignoreError: true
-        remove "/tmp/${war_name}.war"
-
-        execute 'echo Starting Tomcat service...'
-        execute 'sudo systemctl start tomcat8'
+        put from: "gradle/quickstart-web/deploy-app.sh", into: "/home/ubuntu/deploy-app.sh"
+        execute 'sudo chmod +x /home/ubuntu/deploy-app.sh'
+        execute 'sudo sh /home/ubuntu/deploy-app.sh'
+        execute 'sudo rm -f /home/ubuntu/deploy-app.sh'
       }
     }
   }

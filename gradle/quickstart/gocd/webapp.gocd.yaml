@@ -43,7 +43,7 @@ pipelines:
                     destination: xml
               tabs:
                 unit_test: html/index.html
-      - Sonarqube:
+      - Codequality:
           jobs:
             analyzing: 
               tasks:
@@ -101,7 +101,7 @@ pipelines:
               tabs:
                 unit_test: html/index.html
                 jacoco: jacoco/index.html
-      - Sonarqube:
+      - Codequality:
           jobs:
             analyzing: 
               tasks:
