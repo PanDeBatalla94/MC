@@ -5,8 +5,8 @@ pipelines:
     group: Quick
     materials:
       repo: 
-       git: https://github.com/devops-at06/MC.git
-       branch: master 
+       git: https://github.com/PanDeBatalla94/MC.git #https://github.com/devops-at06/MC.git
+       branch: task12 
     stages: 
       - Build:
           jobs:
@@ -109,6 +109,8 @@ pipelines:
                     command: ./gradle/quickstart-web/gradlew
                     arguments:
                       - "sonarqube"
+                      - "-p"
+                      - "gradle/quickstart-web/"
       - Deploy:
           jobs:
             deploying: 
