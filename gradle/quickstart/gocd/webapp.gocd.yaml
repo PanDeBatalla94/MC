@@ -54,6 +54,82 @@ pipelines:
                       - "-p"
                       - "gradle/quickstart/"
 
+  quickstart-webapp-cli:
+    lock_behavior: lockOnFailure
+    group: TEST_war
+    materials:
+      repo: 
+       git: https://github.com/PanDeBatalla94/MC.git
+       branch: task12 
+    stages: 
+      - Commit:
+          jobs:
+            building: 
+              tasks:
+                - exec:
+                    command: ./gradle/quickstart-web/gradlew
+                    arguments:
+                      - "clean"
+                      - "assemble"
+                      - "-p"
+                      - "gradle/quickstart-web/"
+              artifacts:
+                - build:
+                    source: gradle/quickstart-web/build/libs/*.war
+                    destination: war
+      - Test:
+          jobs:
+            Unit_Test: 
+              tasks:
+                - exec:
+                    command: ./gradle/quickstart-web/gradlew
+                    arguments:
+                      - test
+                      - jacocoTestReport
+                      - -p
+                      - gradle/quickstart-web/
+              artifacts:
+                - build:
+                    source: gradle/quickstart-web/build/reports/tests/test/**/*
+                    destination: html
+                - test:
+                    source: gradle/quickstart-web/build/test-results/test/*xml
+                    destination: xml               
+                - build:
+                    source: gradle/quickstart-web/build/jacocoHtml/**/*
+                    destination: jacoco
+              tabs:
+                unit_test: html/index.html
+                jacoco: jacoco/index.html
+      - Sonarqube:
+          jobs:
+            analyzing: 
+              tasks:
+                - exec:
+                    command: ./gradle/quickstart-web/gradlew
+                    arguments:
+                      - "sonarqube"
+      - Deploy:
+          jobs:
+            deploying: 
+              tasks:
+                - fetch:
+                    stage: Commit
+                    job: building
+                    source: war/
+
+                - exec:
+                    command: ./gradle/quickstart-web/gradlew
+                    arguments:
+                      - -b
+                      - deploy.gradle
+                      - deploy
+                      - -Pdev_server=10.28.135.235
+                      - -Puser_home=/home/go
+                      - -Pwar_path=war
+                      - -p
+                      - gradle/quickstart-web/
+
 
  
  
