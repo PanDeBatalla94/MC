@@ -5,8 +5,8 @@ pipelines:
     group: Quick
     materials:
       repo: 
-       git: https://github.com/PanDeBatalla94/MC.git #https://github.com/devops-at06/MC.git
-       branch: task12 
+       git: https://github.com/devops-at06/MC.git
+       branch: master 
     stages: 
       - Build:
           jobs:
@@ -59,8 +59,8 @@ pipelines:
     group: Quick
     materials:
       repo: 
-       git: https://github.com/PanDeBatalla94/MC.git
-       branch: task12 
+       git: https://github.com/devops-at06/MC.git
+       branch: master 
     stages: 
       - Commit:
           jobs:
