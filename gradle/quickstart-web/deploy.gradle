@@ -17,7 +17,7 @@ task deploy {
         put from: "${war_path}/${war_name}.war", into: "/tmp/${war_name}.war"
         put from: "gradle/quickstart-web/deploy-app.sh", into: "/home/ubuntu/deploy-app.sh"
         execute 'sudo chmod +x /home/ubuntu/deploy-app.sh'
-        execute 'sudo sh /home/ubuntu/deploy-app.sh'
+        execute 'sudo bash /home/ubuntu/deploy-app.sh'
         execute 'sudo rm -f /home/ubuntu/deploy-app.sh'
       }
     }
