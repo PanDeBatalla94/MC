@@ -74,8 +74,7 @@ pipeline {
                 },
                 web: {
                     echo 'deploying web...'
-	                sh './gradle/quickstart-web/gradlew -b deploy.gradle deploy -Pdev_server=10.28.135.235 -Puser_home=/home/go
-                        -Pwar_path=gradle/quickstart-web/build/libs -p gradle/quickstart-web/'
+	                sh './gradle/quickstart-web/gradlew -b deploy.gradle deploy -Pdev_server=10.28.135.235 -Puser_home=/home/go -Pwar_path=gradle/quickstart-web/build/libs -p gradle/quickstart-web/'
                 })                
             }
 
