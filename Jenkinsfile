@@ -3,11 +3,16 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building..'
-	        sh '''
-                  chmod +x gradle/quickstart/gradlew
-                  ./gradle/quickstart/gradlew clean assemble -p gradle/quickstart/
-                '''
+                parallel(
+                    app: {
+                        echo 'Building..'
+	                    sh './gradle/quickstart/gradlew clean assemble -p gradle/quickstart/'
+                    },
+                    app-web: {
+                        echo 'Building web app..'
+	                    sh './gradle/quickstart-web/gradlew clean assemble -p gradle/quickstart-web/'
+                    }
+                )
             }
         }
         stage('Test') {
@@ -22,6 +27,11 @@ pipeline {
                 echo 'sonarqube...'
 	        sh './gradle/quickstart/gradlew sonarqube -p gradle/quickstart/'                
             }
+        }
+
+        stage('Loading Jenkins file') {
+            jenkinsFile = fileLoader.fromGit('gradle/quickstart-web', 'https://github.com/PanDeBatalla94/MC.git', 'task13', null, '')
+            jenkinsFile.runPipeline('https://github.com/PanDeBatalla94/MC.git')
         }
        
 
