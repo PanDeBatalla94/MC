@@ -3,18 +3,14 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                parallel app: {
-                    node('a') {
-                        echo 'Building..'
-	                    sh './gradle/quickstart/gradlew clean assemble -p gradle/quickstart/'
-                    }
+                parallel(one: {
+                    echo 'Building..'
+                    sh './gradle/quickstart/gradlew clean assemble -p gradle/quickstart/'
                 },
-                web: {
-                    node('b') {
-                        echo 'Building web app..'
-	                    sh './gradle/quickstart-web/gradlew clean assemble -p gradle/quickstart-web/'
-                    }
-                }
+                two: {
+                    echo 'Building web app..'
+	                sh './gradle/quickstart-web/gradlew clean assemble -p gradle/quickstart-web/'
+                })
             }
         }
         stage('Test') {
