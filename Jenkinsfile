@@ -74,44 +74,13 @@ pipeline {
                 },
                 web: {
                     echo 'deploying web...'
-	                sh '''
-                        ./gradle/quickstart-web/gradlew sonarqube -p gradle/quickstart-web/
-                        -b
-                        deploy.gradle
-                        deploy
-                        -Pdev_server=10.28.135.235
-                        -Puser_home=/home/go
-                        -Pwar_path=war
-                        -p
-                        gradle/quickstart-web/
-                    '''
+	                sh './gradle/quickstart-web/gradlew -b deploy.gradle deploy -Pdev_server=10.28.135.235 -Puser_home=/home/go
+                        -Pwar_path=gradle/quickstart-web/build/libs -p gradle/quickstart-web/'
                 })                
             }
 
         }
     }
 
-    post {
-        always {
-            junit 'gradle/quickstart/build/test-results/test/*.xml'
-            publishHTML(target: [allowMissing: true, 
-                         alwaysLinkToLastBuild: false,  
-                         keepAll: true, 
-                         reportDir: 'gradle/quickstart/build/reports/tests/test', 
-                         reportFiles: 'index.html', 
-                         reportTitles: "Simple Report",
-                         reportName: 'JUnit Test Reports'])
-
-            publishHTML(target: [allowMissing: true, 
-                        alwaysLinkToLastBuild: false, 
-                        keepAll: true, 
-                        reportDir: 'gradle/quickstart/build/jacocoHtml', 
-                        reportFiles: 'index.html',
-                        reportTitles: "SimpleCov Report", 
-                        reportName: 'JaCoCo Coverage Reports'])
-        }
-        success {
-            archiveArtifacts artifacts: 'gradle/quickstart/build/libs/*.jar', fingerprint: true
-        }
-    }
+    
 }
