@@ -1,25 +1,23 @@
 plugins {
+  id "org.gretty" version "2.2.0"
   id "org.sonarqube" version "2.6.2"
 }
-
-apply plugin: 'java'
+apply plugin: 'war'
 apply plugin: "jacoco"
-
-version = '1.0'
-jar {
-    manifest {
-        attributes 'Implementation-Title': 'Gradle Quickstart',
-                   'Implementation-Version': version
-    }
-}
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
-    compile 'commons-collections:commons-collections:3.2.2'
+    compile group: 'commons-io', name: 'commons-io', version: '1.4'
+    compile group: 'log4j', name: 'log4j', version: '1.2.15', ext: 'jar'
     testCompile 'junit:junit:4.12'
+}
+
+gretty {
+    httpPort = 8080
 }
 
 jacoco {
@@ -42,5 +40,3 @@ uploadArchives {
        }
     }
 }
-
-

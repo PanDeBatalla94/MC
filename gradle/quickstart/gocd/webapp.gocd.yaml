@@ -1,8 +1,8 @@
 format_version: 3
 pipelines:
-  quickstart-cli:
+  quickstart_app:
     lock_behavior: lockOnFailure
-    group: TEST
+    group: Quick
     materials:
       repo: 
        git: https://github.com/devops-at06/MC.git
@@ -22,7 +22,7 @@ pipelines:
               artifacts:
                 - build:
                     source: gradle/quickstart/build/libs/*.jar
-                    destination: Build
+                    destination: jar
       - Test:
           jobs:
             Unit_Test: 
@@ -43,7 +43,7 @@ pipelines:
                     destination: xml
               tabs:
                 unit_test: html/index.html
-      - Sonarqube:
+      - Codequality:
           jobs:
             analyzing: 
               tasks:
@@ -53,6 +53,84 @@ pipelines:
                       - "sonarqube"
                       - "-p"
                       - "gradle/quickstart/"
+
+  quickstart_webapp:
+    lock_behavior: lockOnFailure
+    group: Quick
+    materials:
+      repo: 
+       git: https://github.com/devops-at06/MC.git
+       branch: master 
+    stages: 
+      - Commit:
+          jobs:
+            building: 
+              tasks:
+                - exec:
+                    command: ./gradle/quickstart-web/gradlew
+                    arguments:
+                      - "clean"
+                      - "assemble"
+                      - "-p"
+                      - "gradle/quickstart-web/"
+              artifacts:
+                - build:
+                    source: gradle/quickstart-web/build/libs/*.war
+                    destination: war
+      - Test:
+          jobs:
+            Unit_Test: 
+              tasks:
+                - exec:
+                    command: ./gradle/quickstart-web/gradlew
+                    arguments:
+                      - test
+                      - jacocoTestReport
+                      - -p
+                      - gradle/quickstart-web/
+              artifacts:
+                - build:
+                    source: gradle/quickstart-web/build/reports/tests/test/**/*
+                    destination: html
+                - test:
+                    source: gradle/quickstart-web/build/test-results/test/*xml
+                    destination: xml               
+                - build:
+                    source: gradle/quickstart-web/build/jacocoHtml/**/*
+                    destination: jacoco
+              tabs:
+                unit_test: html/index.html
+                jacoco: jacoco/index.html
+      - Codequality:
+          jobs:
+            analyzing: 
+              tasks:
+                - exec:
+                    command: ./gradle/quickstart-web/gradlew
+                    arguments:
+                      - "sonarqube"
+                      - "-p"
+                      - "gradle/quickstart-web/"
+      - Deploy:
+          jobs:
+            deploying: 
+              tasks:
+                - fetch:
+                    stage: Commit
+                    job: building
+                    source: war/
+
+                - exec:
+                    command: ./gradle/quickstart-web/gradlew
+                    arguments:
+                      - -b
+                      - deploy.gradle
+                      - deploy
+                      - -Pdev_server=10.28.135.235
+                      - -Puser_home=/home/go
+                      - -Pwar_path=war
+                      - -p
+                      - gradle/quickstart-web/
 
 
  
