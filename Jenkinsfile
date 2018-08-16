@@ -3,11 +3,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                parallel(one: {
+                parallel(app: {
                     echo 'Building..'
                     sh './gradle/quickstart/gradlew clean assemble -p gradle/quickstart/'
                 },
-                two: {
+                web: {
                     echo 'Building web app..'
 	                sh './gradle/quickstart-web/gradlew clean assemble -p gradle/quickstart-web/'
                 })
@@ -15,22 +15,53 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
-	        sh './gradle/quickstart/gradlew test jacocoTestReport -p gradle/quickstart/'                
+                parallel(app: {
+                    echo 'Testing..'
+	                sh './gradle/quickstart/gradlew test jacocoTestReport -p gradle/quickstart/'
+                },
+                web: {
+                    echo 'Testing web app..'
+	                sh './gradle/quickstart-web/gradlew test jacocoTestReport -p gradle/quickstart-web/'
+                })                  
             }
         }
 
         stage('Code quality') {
             steps {
-                echo 'sonarqube...'
-	        sh './gradle/quickstart/gradlew sonarqube -p gradle/quickstart/'                
+
+                parallel(app: {
+                    echo 'Sonarqube...'
+	                sh './gradle/quickstart/gradlew sonarqube -p gradle/quickstart/'
+                },
+                web: {
+                    echo 'Sonarqube web...'
+	                sh './gradle/quickstart-web/gradlew sonarqube -p gradle/quickstart-web/'
+                }) 
             }
         }
 
-        
-       
+        stage('Deploy') {
+            steps {
+                parallel(app: {
+                    echo 'deploying...'
+                },
+                web: {
+                    echo 'deploying web...'
+	                sh '''
+                        ./gradle/quickstart-web/gradlew sonarqube -p gradle/quickstart-web/
+                        b
+                        deploy.gradle
+                        deploy
+                        -Pdev_server=10.28.135.235
+                        -Puser_home=/home/go
+                        -Pwar_path=war
+                        -p
+                         gradle/quickstart-web/
+                    '''
+                })                
+            }
 
-	
+        }
     }
 
     post {
