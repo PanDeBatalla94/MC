@@ -31,10 +31,7 @@ pipeline {
             }
         }
 
-        stage('Loading Jenkins file') {
-            jenkinsFile = fileLoader.fromGit('gradle/quickstart-web', 'https://github.com/PanDeBatalla94/MC.git', 'task13', null, '')
-            jenkinsFile.runPipeline('https://github.com/PanDeBatalla94/MC.git')
-        }
+        
        
 
 	
