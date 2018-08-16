@@ -1,0 +1,13 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo 'hola'
+	        sh './gradle/quickstart-web/gradlew clean assemble -p gradle/quickstart-web/'
+            }
+        }
+    }
+
+  
+}
